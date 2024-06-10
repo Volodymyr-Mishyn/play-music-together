@@ -12,5 +12,10 @@
         Join
       </button>
     </div>
+    <div>
+      @if (error!==null) {
+      <div class="text-red-500">{{ error }}</div>
+      }
+    </div>
   </div>
 </div>
