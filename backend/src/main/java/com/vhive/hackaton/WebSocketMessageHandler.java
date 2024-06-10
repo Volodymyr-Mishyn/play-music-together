@@ -15,12 +15,17 @@ import java.util.Set;
 public class WebSocketMessageHandler extends TextWebSocketHandler {
 
     private final Set<WebSocketSession> sessions = Collections.synchronizedSet(new HashSet<>());
+    private final UserService userService;
 
-    @Override
-    public void afterConnectionEstablished(WebSocketSession session) {
-        sessions.add(session);
+    public WebSocketMessageHandler(UserService userService) {
+        this.userService = userService;
     }
 
+    @Override
+    public void afterConnectionEstablished(WebSocketSession session) throws Exception {
+        sessions.add(session);
+        sendUserList(session);
+    }
 
     @Override
     public void handleTextMessage(WebSocketSession session, TextMessage message) throws IOException {
@@ -34,5 +39,35 @@ public class WebSocketMessageHandler extends TextWebSocketHandler {
     @Override
     public void afterConnectionClosed(WebSocketSession session, CloseStatus status) {
         sessions.remove(session);
+        String user = session.getAttributes().get("user").toString();
+        if (userService.removeUser(user)) {
+            broadcastUserList();
+        }
+    }
+
+    public void broadcastUserList() {
+        Set<String> users = userService.getUsers();
+        String userListMessage = "{\"type\":\"users\",\"message\":{\"users\":" + users + "}}";
+        TextMessage message = new TextMessage(userListMessage);
+        for (WebSocketSession session : sessions) {
+            if (session.isOpen()) {
+                try {
+                    session.sendMessage(message);
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+            }
+        }
+    }
+
+    private void sendUserList(WebSocketSession session) {
+        Set<String> users = userService.getUsers();
+        String userListMessage = "{\"type\":\"users\",\"message\":{\"users\":" + users + "}}";
+        TextMessage message = new TextMessage(userListMessage);
+        try {
+            session.sendMessage(message);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
     }
 }
