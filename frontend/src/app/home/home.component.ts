@@ -12,20 +12,20 @@ import { Router } from '@angular/router';
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class HomeComponent {
-  private _nickname: string = '';
+  private _username: string = '';
 
   constructor(private _router: Router) {}
 
-  public get nickname(): string {
-    return this._nickname;
+  public get username(): string {
+    return this._username;
   }
 
-  public set nickname(value: string) {
-    this._nickname = value;
+  public set username(value: string) {
+    this._username = value;
   }
 
   public join(): void {
-    console.log('Joining as', this._nickname);
+    console.log('Joining as', this.username);
     // this._router.navigate(['music']);
   }
 }

@@ -1,7 +1,16 @@
-<div>
-  <h1>Welcome to Play together app</h1>
-  <div>
-    <input type="text" [(ngModel)]="nickname" placeholder="Enter your name" />
-    <button (click)="join()">Join</button>
+<div class="w-full h-full flex flex-1 flex-col items-center justify-center">
+  <div
+    class="flex flex-none flex-col items-center justify-center gap-5 border-2 shadow-sm p-2 m-2"
+  >
+    <h1 class="text-lg">Welcome to Play together app</h1>
+    <div>
+      <input type="text" [(ngModel)]="username" placeholder="Enter your name" />
+      <button
+        (click)="join()"
+        class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4"
+      >
+        Join
+      </button>
+    </div>
   </div>
 </div>
