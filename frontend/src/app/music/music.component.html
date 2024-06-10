@@ -1,9 +1,13 @@
-<div class="container">
-  <div class="users-list"></div>
-  <div class="notes">
+<div
+  class="container p-20 flex-1 w-full h-full flex flex-row items-stretch justify-stretch gap-5"
+>
+  <div class="users-list w-40 border-red-200 border-2">User list here</div>
+  <div class="notes flex-1 flex flex-row items-center justify-center gap-5">
     @for(note of notes; track note) {
-    <div class="note">
-      <div class="note__user">{{ note }}</div>
+    <div class="note w-20">
+      <div class="note__user shadow-lg" (click)="play(note)">
+        {{ note }}
+      </div>
     </div>
     }
   </div>
