@@ -12,6 +12,7 @@ import { MusicService } from '../services/music.service';
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class MusicComponent implements OnInit {
+  public user: string | null = null;
   public notes: Array<{ name: string }> = [
     { name: 'C4' },
     { name: 'D4' },
@@ -25,7 +26,9 @@ export class MusicComponent implements OnInit {
   constructor(private _musicService: MusicService) {}
 
   ngOnInit(): void {
-    this._musicService.init();
+    this._musicService.init().subscribe((connected) => {
+      this.user = this._musicService.user;
+    });
   }
 
   public play(note: string): void {

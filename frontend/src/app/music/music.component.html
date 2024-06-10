@@ -2,13 +2,16 @@
   class="container p-20 flex-1 w-full h-full flex flex-row items-stretch justify-stretch gap-5"
 >
   <div class="users-list w-40 border-red-200 border-2">User list here</div>
-  <div class="notes flex-1 flex flex-row items-center justify-center gap-5">
-    @for(note of notes; track note) {
-    <div class="note w-20">
-      <div class="note__user shadow-lg" (click)="play(note.name)">
-        {{ note.name }}
+  <div class="flex flex-col items center justify-center">
+    {{ "Hello, " + user + "!" }}
+    <div class="notes flex-1 flex flex-row items-center justify-center gap-5">
+      @for(note of notes; track note) {
+      <div class="note w-20">
+        <div class="note__user shadow-lg" (click)="play(note.name)">
+          {{ note.name }}
+        </div>
       </div>
+      }
     </div>
-    }
   </div>
 </div>

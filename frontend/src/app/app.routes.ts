@@ -11,7 +11,7 @@ export const routes: Routes = [
     path: 'music',
     loadComponent: () =>
       import('./music/music.component').then((m) => m.MusicComponent),
-    // canActivate: [userGuard],
+    canActivate: [userGuard],
   },
   {
     path: '**',
