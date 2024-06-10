@@ -12,6 +12,9 @@ import { MusicService } from '../services/music.service';
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class MusicComponent implements OnInit {
+  public users = this._musicService.users$;
+
+  public currentlyPlaying$ = this._musicService.currentlyPlaying$;
   public user: string | null = null;
   public notes: Array<{ name: string }> = [
     { name: 'C4' },

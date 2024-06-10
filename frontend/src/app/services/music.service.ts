@@ -2,14 +2,27 @@ import { Injectable } from '@angular/core';
 import * as Tone from 'tone';
 import { UserService } from './user.service';
 import { WebSocketService } from './web-socket.service';
-import { Observable, of, switchMap, tap } from 'rxjs';
+import { BehaviorSubject, Observable, of, switchMap, tap } from 'rxjs';
 
+export interface CurrentlyPlaying {
+  note: string;
+  user: string;
+}
 @Injectable({
   providedIn: 'root',
 })
 export class MusicService {
   private synth: Tone.Synth;
   private _user: string | null = null;
+
+  private _usersSubject$ = new BehaviorSubject<Array<string>>([]);
+
+  public users$ = this._usersSubject$.asObservable();
+
+  private _currentlyPlaying = new BehaviorSubject<CurrentlyPlaying | null>(
+    null
+  );
+  public currentlyPlaying$ = this._currentlyPlaying.asObservable();
 
   get user(): string | null {
     return this._user;
@@ -26,6 +39,13 @@ export class MusicService {
     this._webSocketService.messages$.subscribe((message) => {
       if (message.type === 'note') {
         this.playNoteFromMessage(message.payload.note as string);
+        this.setCurrentlyPlaying({
+          note: message.payload.note as string,
+          user: message.payload.user as string,
+        });
+      }
+      if (message.type === 'users') {
+        this._usersSubject$.next(message.message.users as Array<string>);
       }
     });
     this._user = null;
@@ -47,12 +67,20 @@ export class MusicService {
     );
   }
 
+  public setCurrentlyPlaying(currentlyPlaying: CurrentlyPlaying): void {
+    this._currentlyPlaying.next(currentlyPlaying);
+
+    setTimeout(() => {
+      this._currentlyPlaying.next(null);
+    }, 1000);
+  }
+
   play(note: string): void {
     // Play the note locally
     this.playNoteFromMessage(note);
 
     // Send the note over WebSocket
-    this._webSocketService.sendMessage('note', { note });
+    this._webSocketService.sendMessage('note', { user: this._user, note });
   }
 
   private playNoteFromMessage(note: string): void {

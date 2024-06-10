@@ -1,13 +1,31 @@
 <div
   class="container p-20 flex-1 w-full h-full flex flex-row items-stretch justify-stretch gap-5"
 >
-  <div class="users-list w-40 border-red-200 border-2">User list here</div>
+  <div
+    class="users-list w-40 border-red-200 border-2 flex-col items-start justify-start gap-5"
+  >
+    @for(user of users|async; track user) {
+    <div class="shadow-lg p-2 m-2">
+      {{ user }}
+      @if(user === (currentlyPlaying$ | async)?.user) {
+      <div class="text-red-500">Playing...</div>
+      }
+    </div>
+
+    }
+  </div>
   <div class="flex flex-col items center justify-center">
     {{ "Hello, " + user + "!" }}
     <div class="notes flex-1 flex flex-row items-center justify-center gap-5">
       @for(note of notes; track note) {
       <div class="note w-20">
-        <div class="note__user shadow-lg" (click)="play(note.name)">
+        <div
+          class="note__user shadow-lg"
+          (click)="play(note.name)"
+          [ngClass]="{
+            'bg-pink-500': note.name === (currentlyPlaying$ | async)?.note
+          }"
+        >
           {{ note.name }}
         </div>
       </div>
@@ -15,3 +33,4 @@
     </div>
   </div>
 </div>
+{{ currentlyPlaying$ | async | json }}
