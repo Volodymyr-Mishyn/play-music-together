@@ -15,7 +15,7 @@ export class UserService {
 
   public login(user: string) {
     return this._httpClient
-      .post(`${this._apiUrl}login`, { user })
+      .post(`${this._apiUrl}login`, { user }, { responseType: 'text' })
       .pipe((response) => {
         this._currentUserSubject.next(user);
         return response;

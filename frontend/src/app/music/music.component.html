@@ -5,8 +5,8 @@
   <div class="notes flex-1 flex flex-row items-center justify-center gap-5">
     @for(note of notes; track note) {
     <div class="note w-20">
-      <div class="note__user shadow-lg" (click)="play(note)">
-        {{ note }}
+      <div class="note__user shadow-lg" (click)="play(note.name)">
+        {{ note.name }}
       </div>
     </div>
     }

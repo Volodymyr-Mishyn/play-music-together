@@ -33,7 +33,7 @@ export class HomeComponent {
     this._userService.login(this.username).subscribe({
       next: (response) => {
         console.log('Response:', response);
-        // this._router.navigate(['/music']);
+        this._router.navigate(['/music']);
       },
       error: (error) => {
         console.error('Error:', error);

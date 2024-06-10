@@ -1,6 +1,7 @@
 import { CommonModule } from '@angular/common';
-import { ChangeDetectionStrategy, Component } from '@angular/core';
+import { ChangeDetectionStrategy, Component, OnInit } from '@angular/core';
 import { WebSocketService } from '../services/web-socket.service';
+import { MusicService } from '../services/music.service';
 
 @Component({
   selector: 'app-music',
@@ -10,15 +11,25 @@ import { WebSocketService } from '../services/web-socket.service';
   styleUrl: './music.component.css',
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class MusicComponent {
-  public notes: Array<string> = ['A', 'B', 'C', 'D', 'E', 'F', 'G'];
+export class MusicComponent implements OnInit {
+  public notes: Array<{ name: string }> = [
+    { name: 'C4' },
+    { name: 'D4' },
+    { name: 'E4' },
+    { name: 'F4' },
+    { name: 'G4' },
+    { name: 'A4' },
+    { name: 'B4' },
+  ];
 
-  constructor(private _webSocketService: WebSocketService) {
-    this._webSocketService.connect();
+  constructor(private _musicService: MusicService) {}
+
+  ngOnInit(): void {
+    this._musicService.init();
   }
 
   public play(note: string): void {
     console.log('Playing note', note);
-    this._webSocketService.sendMessage('play', { note });
+    this._musicService.play(note);
   }
 }

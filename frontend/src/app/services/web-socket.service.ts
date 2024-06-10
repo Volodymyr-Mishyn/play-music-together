@@ -13,9 +13,13 @@ export class WebSocketService {
 
   constructor() {}
 
-  public connect() {
-    this._socket$ = webSocket('ws://localhost:8080/ws?user=username');
-
+  public connect(username: string): void {
+    this._socket$ = webSocket(`ws://localhost:8080/ws?user=${username}`);
+    // this._socket$ = webSocket(
+    //   'wss://2e38-2a01-110f-440e-db00-c98e-d3db-1ab0-14c.ngrok-free.app/ws?user=test'
+    // );
+    // console.log('Connected to WebSocket', this._socket$);
+    console.log('Connected to WebSocket');
     this._socket$.subscribe(
       (message) => this.messagesSubject$.next(message),
       (err) => console.error(err),
