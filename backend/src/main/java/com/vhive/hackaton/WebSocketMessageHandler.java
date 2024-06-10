@@ -10,6 +10,7 @@ import java.io.IOException;
 import java.util.Collections;
 import java.util.HashSet;
 import java.util.Set;
+import java.util.stream.Collectors;
 
 @Service
 public class WebSocketMessageHandler extends TextWebSocketHandler {
@@ -46,7 +47,9 @@ public class WebSocketMessageHandler extends TextWebSocketHandler {
     }
 
     public void broadcastUserList() {
-        Set<String> users = userService.getUsers();
+        String users = userService.getUsers().stream()
+                .map(user -> "\"" + user + "\"")
+                .collect(Collectors.joining(", ", "[", "]"));;
         String userListMessage = "{\"type\":\"users\",\"message\":{\"users\":" + users + "}}";
         TextMessage message = new TextMessage(userListMessage);
         for (WebSocketSession session : sessions) {
@@ -61,7 +64,9 @@ public class WebSocketMessageHandler extends TextWebSocketHandler {
     }
 
     private void sendUserList(WebSocketSession session) {
-        Set<String> users = userService.getUsers();
+        String users = userService.getUsers().stream()
+                .map(user -> "\"" + user + "\"")
+                .collect(Collectors.joining(", ", "[", "]"));;
         String userListMessage = "{\"type\":\"users\",\"message\":{\"users\":" + users + "}}";
         TextMessage message = new TextMessage(userListMessage);
         try {
