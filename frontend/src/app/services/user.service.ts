@@ -14,8 +14,9 @@ export class UserService {
   constructor(private _httpClient: HttpClient) {}
 
   public login(user: string) {
+    const url = `http://${window.location.hostname}:8080/api/login`;
     return this._httpClient
-      .post(`${this._apiUrl}login`, { user }, { responseType: 'text' })
+      .post(url, { user }, { responseType: 'text' })
       .pipe((response) => {
         this._currentUserSubject.next(user);
         return response;

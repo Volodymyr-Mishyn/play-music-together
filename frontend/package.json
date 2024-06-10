@@ -6,7 +6,8 @@
     "start": "ng serve",
     "build": "ng build",
     "watch": "ng build --watch --configuration development",
-    "test": "ng test"
+    "test": "ng test",
+    "serve:dist": "http-server dist/frontend/browser -p 3000"
   },
   "private": true,
   "dependencies": {
@@ -29,6 +30,7 @@
     "@angular/compiler-cli": "^18.0.0",
     "@types/jasmine": "~5.1.0",
     "autoprefixer": "^10.4.19",
+    "http-server": "^14.1.1",
     "jasmine-core": "~5.1.0",
     "karma": "~6.4.0",
     "karma-chrome-launcher": "~3.2.0",
