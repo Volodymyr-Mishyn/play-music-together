@@ -9,4 +9,6 @@ import { ChangeDetectionStrategy, Component } from '@angular/core';
   styleUrl: './music.component.css',
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class MusicComponent {}
+export class MusicComponent {
+  public notes: Array<string> = ['A', 'B', 'C', 'D', 'E', 'F', 'G'];
+}

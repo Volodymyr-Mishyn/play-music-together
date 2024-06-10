@@ -1,1 +1,10 @@
-music
+<div class="container">
+  <div class="users-list"></div>
+  <div class="notes">
+    @for(note of notes; track note) {
+    <div class="note">
+      <div class="note__user">{{ note }}</div>
+    </div>
+    }
+  </div>
+</div>
